@@ -31,3 +31,10 @@ screens.select_blind.#{blind_name}.buttons.get_skip   = -> screens.select_blind.
 $GENERATE_BLIND small
 $GENERATE_BLIND big
 $GENERATE_BLIND boss
+
+screens.blind = {}
+screens.blind.buttons = {}
+screens.blind.buttons.get_play_hand = -> G.buttons |> get_UIE_by_attribute("button", "play_cards_from_highlighted")
+screens.blind.buttons.get_rank      = -> G.buttons |> get_UIE_by_attribute("button", "sort_hand_value")
+screens.blind.buttons.get_suit      = -> G.buttons |> get_UIE_by_attribute("button", "sort_hand_suit")
+screens.blind.buttons.get_discard   = -> G.buttons |> get_UIE_by_attribute("button", "discard_cards_from_highlighted")

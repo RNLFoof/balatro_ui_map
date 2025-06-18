@@ -77,4 +77,18 @@ do
 		return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
 	end
 end
+screens.blind = { }
+screens.blind.buttons = { }
+screens.blind.buttons.get_play_hand = function()
+	return get_UIE_by_attribute(G.buttons, "button", "play_cards_from_highlighted")
+end
+screens.blind.buttons.get_rank = function()
+	return get_UIE_by_attribute(G.buttons, "button", "sort_hand_value")
+end
+screens.blind.buttons.get_suit = function()
+	return get_UIE_by_attribute(G.buttons, "button", "sort_hand_suit")
+end
+screens.blind.buttons.get_discard = function()
+	return get_UIE_by_attribute(G.buttons, "button", "discard_cards_from_highlighted")
+end
 return _module_0
