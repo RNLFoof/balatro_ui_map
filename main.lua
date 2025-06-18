@@ -36,45 +36,45 @@ get_UIE_by_attribute = function(ui_box, attribute_key, attribute_value, node)
 end
 _module_0["get_UIE_by_attribute"] = get_UIE_by_attribute
 local screens = { }
+_module_0["screens"] = screens
 screens.select_blind = { }
 do
 	screens.select_blind.small = { }
-	screens.select_blind.small.ui_box = function()
+	screens.select_blind.small.get_ui_box = function()
 		return G.blind_select_opts.small
 	end
 	screens.select_blind.small.buttons = { }
-	screens.select_blind.small.buttons.select = function()
-		return screens.select_blind.small.ui_box():get_UIE_by_ID('select_blind_button')
+	screens.select_blind.small.buttons.get_select = function()
+		return screens.select_blind.small.get_ui_box():get_UIE_by_ID('select_blind_button')
 	end
-	screens.select_blind.small.buttons.skip = function()
-		return get_UIE_by_attribute(screens.select_blind.small.ui_box(), 'button', 'skip_blind')
+	screens.select_blind.small.buttons.get_skip = function()
+		return get_UIE_by_attribute(screens.select_blind.small.get_ui_box(), 'button', 'skip_blind')
 	end
 end
 do
 	screens.select_blind.big = { }
-	screens.select_blind.big.ui_box = function()
+	screens.select_blind.big.get_ui_box = function()
 		return G.blind_select_opts.big
 	end
 	screens.select_blind.big.buttons = { }
-	screens.select_blind.big.buttons.select = function()
-		return screens.select_blind.big.ui_box():get_UIE_by_ID('select_blind_button')
+	screens.select_blind.big.buttons.get_select = function()
+		return screens.select_blind.big.get_ui_box():get_UIE_by_ID('select_blind_button')
 	end
-	screens.select_blind.big.buttons.skip = function()
-		return get_UIE_by_attribute(screens.select_blind.big.ui_box(), 'button', 'skip_blind')
+	screens.select_blind.big.buttons.get_skip = function()
+		return get_UIE_by_attribute(screens.select_blind.big.get_ui_box(), 'button', 'skip_blind')
 	end
 end
 do
 	screens.select_blind.boss = { }
-	screens.select_blind.boss.ui_box = function()
+	screens.select_blind.boss.get_ui_box = function()
 		return G.blind_select_opts.boss
 	end
 	screens.select_blind.boss.buttons = { }
-	screens.select_blind.boss.buttons.select = function()
-		return screens.select_blind.boss.ui_box():get_UIE_by_ID('select_blind_button')
+	screens.select_blind.boss.buttons.get_select = function()
+		return screens.select_blind.boss.get_ui_box():get_UIE_by_ID('select_blind_button')
 	end
-	screens.select_blind.boss.buttons.skip = function()
-		return get_UIE_by_attribute(screens.select_blind.boss.ui_box(), 'button', 'skip_blind')
+	screens.select_blind.boss.buttons.get_skip = function()
+		return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
 	end
 end
-_module_0[#_module_0 + 1] = screens
 return _module_0

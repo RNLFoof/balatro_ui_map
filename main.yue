@@ -14,22 +14,20 @@ export get_UIE_by_attribute = (ui_box, attribute_key, attribute_value, node) ->
                 return res
     return nil
 
-screens = {}
+export screens = {}
 
 screens.select_blind = {}
 
 -- Done by macros instead of a for loop for intelisense
 macro GENERATE_BLIND = (blind_name) -> "
-screens.select_blind.#{blind_name}        = {}
-screens.select_blind.#{blind_name}.ui_box = -> G.blind_select_opts.#{blind_name}
+screens.select_blind.#{blind_name}            = {}
+screens.select_blind.#{blind_name}.get_ui_box = -> G.blind_select_opts.#{blind_name}
 
-screens.select_blind.#{blind_name}.buttons        = {}
-screens.select_blind.#{blind_name}.buttons.select = -> screens.select_blind.#{blind_name}.ui_box()::get_UIE_by_ID('select_blind_button')
-screens.select_blind.#{blind_name}.buttons.skip   = -> screens.select_blind.#{blind_name}.ui_box() |> get_UIE_by_attribute('button', 'skip_blind')
+screens.select_blind.#{blind_name}.buttons            = {}
+screens.select_blind.#{blind_name}.buttons.get_select = -> screens.select_blind.#{blind_name}.get_ui_box()::get_UIE_by_ID('select_blind_button')
+screens.select_blind.#{blind_name}.buttons.get_skip   = -> screens.select_blind.#{blind_name}.get_ui_box() |> get_UIE_by_attribute('button', 'skip_blind')
 "
 
 $GENERATE_BLIND small
 $GENERATE_BLIND big
 $GENERATE_BLIND boss
-
-export screens
