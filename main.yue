@@ -1,0 +1,35 @@
+
+-- THIS HASN'T ACTUALLY BEEN TESTED!!!!
+export get_UIE_by_attribute = (ui_box, attribute_key, attribute_value, node) ->
+    node ??= ui_box.UIRoot
+    if node.config?[attribute_key] == attribute_value
+        return node
+    for child_key, child_value in pairs(node.children)
+        result = get_UIE_by_attribute(ui_box, attribute_key, attribute_value, child_value)
+        if result
+            return result
+        elseif child_value.config.object?.get_UIE_by_ID  -- a bit jank to check for this, like in the original code, but I figure it being present at least guarentees that it *is* a UIBox
+            result = get_UIE_by_attribute(v.config.object, attribute_key, attribute_value, nil)
+            if result
+                return res
+    return nil
+
+screens = {}
+
+screens.select_blind = {}
+
+-- Done by macros instead of a for loop for intelisense
+macro GENERATE_BLIND = (blind_name) -> "
+screens.select_blind.#{blind_name}        = {}
+screens.select_blind.#{blind_name}.ui_box = -> G.blind_select_opts.#{blind_name}
+
+screens.select_blind.#{blind_name}.buttons        = {}
+screens.select_blind.#{blind_name}.buttons.select = -> screens.select_blind.#{blind_name}.ui_box()::get_UIE_by_ID('select_blind_button')
+screens.select_blind.#{blind_name}.buttons.skip   = -> screens.select_blind.#{blind_name}.ui_box() |> get_UIE_by_attribute('button', 'skip_blind')
+"
+
+$GENERATE_BLIND small
+$GENERATE_BLIND big
+$GENERATE_BLIND boss
+
+export screens
