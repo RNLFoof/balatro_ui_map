@@ -35,60 +35,70 @@ get_UIE_by_attribute = function(ui_box, attribute_key, attribute_value, node)
 	return nil
 end
 _module_0["get_UIE_by_attribute"] = get_UIE_by_attribute
-local screens = { }
+local screens = {
+	select_blind = {
+		{
+			small = {
+				get_ui_box = function()
+					return G.blind_select_opts.small
+				end,
+				buttons = {
+					get_select = function()
+						return screens.select_blind.small.get_ui_box():get_UIE_by_ID('select_blind_button')
+					end,
+					get_skip = function()
+						return get_UIE_by_attribute(screens.select_blind.small.get_ui_box(), 'button', 'skip_blind')
+					end
+				}
+			}
+		},
+		{
+			big = {
+				get_ui_box = function()
+					return G.blind_select_opts.big
+				end,
+				buttons = {
+					get_select = function()
+						return screens.select_blind.big.get_ui_box():get_UIE_by_ID('select_blind_button')
+					end,
+					get_skip = function()
+						return get_UIE_by_attribute(screens.select_blind.big.get_ui_box(), 'button', 'skip_blind')
+					end
+				}
+			}
+		},
+		{
+			boss = {
+				get_ui_box = function()
+					return G.blind_select_opts.boss
+				end,
+				buttons = {
+					get_select = function()
+						return screens.select_blind.boss.get_ui_box():get_UIE_by_ID('select_blind_button')
+					end,
+					get_skip = function()
+						return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
+					end
+				}
+			}
+		}
+	},
+	blind = {
+		buttons = {
+			get_play_hand = function()
+				return get_UIE_by_attribute(G.buttons, "button", "play_cards_from_highlighted")
+			end,
+			get_rank = function()
+				return get_UIE_by_attribute(G.buttons, "button", "sort_hand_value")
+			end,
+			get_suit = function()
+				return get_UIE_by_attribute(G.buttons, "button", "sort_hand_suit")
+			end,
+			get_discard = function()
+				return get_UIE_by_attribute(G.buttons, "button", "discard_cards_from_highlighted")
+			end
+		}
+	}
+}
 _module_0["screens"] = screens
-screens.select_blind = { }
-do
-	screens.select_blind.small = { }
-	screens.select_blind.small.get_ui_box = function()
-		return G.blind_select_opts.small
-	end
-	screens.select_blind.small.buttons = { }
-	screens.select_blind.small.buttons.get_select = function()
-		return screens.select_blind.small.get_ui_box():get_UIE_by_ID('select_blind_button')
-	end
-	screens.select_blind.small.buttons.get_skip = function()
-		return get_UIE_by_attribute(screens.select_blind.small.get_ui_box(), 'button', 'skip_blind')
-	end
-end
-do
-	screens.select_blind.big = { }
-	screens.select_blind.big.get_ui_box = function()
-		return G.blind_select_opts.big
-	end
-	screens.select_blind.big.buttons = { }
-	screens.select_blind.big.buttons.get_select = function()
-		return screens.select_blind.big.get_ui_box():get_UIE_by_ID('select_blind_button')
-	end
-	screens.select_blind.big.buttons.get_skip = function()
-		return get_UIE_by_attribute(screens.select_blind.big.get_ui_box(), 'button', 'skip_blind')
-	end
-end
-do
-	screens.select_blind.boss = { }
-	screens.select_blind.boss.get_ui_box = function()
-		return G.blind_select_opts.boss
-	end
-	screens.select_blind.boss.buttons = { }
-	screens.select_blind.boss.buttons.get_select = function()
-		return screens.select_blind.boss.get_ui_box():get_UIE_by_ID('select_blind_button')
-	end
-	screens.select_blind.boss.buttons.get_skip = function()
-		return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
-	end
-end
-screens.blind = { }
-screens.blind.buttons = { }
-screens.blind.buttons.get_play_hand = function()
-	return get_UIE_by_attribute(G.buttons, "button", "play_cards_from_highlighted")
-end
-screens.blind.buttons.get_rank = function()
-	return get_UIE_by_attribute(G.buttons, "button", "sort_hand_value")
-end
-screens.blind.buttons.get_suit = function()
-	return get_UIE_by_attribute(G.buttons, "button", "sort_hand_suit")
-end
-screens.blind.buttons.get_discard = function()
-	return get_UIE_by_attribute(G.buttons, "button", "discard_cards_from_highlighted")
-end
 return _module_0
