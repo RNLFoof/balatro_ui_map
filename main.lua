@@ -35,6 +35,21 @@ get_UIE_by_attribute = function(ui_box, attribute_key, attribute_value, node)
 	return nil
 end
 _module_0["get_UIE_by_attribute"] = get_UIE_by_attribute
+local card_areas = {
+	get_hand = function()
+		return G.hand
+	end,
+	get_jokers = function()
+		return G.jokers
+	end,
+	get_consumables = function()
+		return G.consumeables
+	end,
+	get_inventory = function()
+		return G.consumeables
+	end
+}
+_module_0["card_areas"] = card_areas
 local screens = {
 	select_blind = {
 		{
@@ -81,6 +96,11 @@ local screens = {
 					end
 				}
 			}
+		},
+		card_areas = {
+			get_jokers = card_areas.get_jokers,
+			get_consumables = card_areas.get_consumables,
+			get_inventory = card_areas.get_inventory
 		}
 	},
 	blind = {
@@ -97,6 +117,12 @@ local screens = {
 			get_discard = function()
 				return get_UIE_by_attribute(G.buttons, "button", "discard_cards_from_highlighted")
 			end
+		},
+		card_areas = {
+			get_hand = card_areas.get_hand,
+			get_jokers = card_areas.get_jokers,
+			get_consumables = card_areas.get_consumables,
+			get_inventory = card_areas.get_inventory
 		}
 	}
 }

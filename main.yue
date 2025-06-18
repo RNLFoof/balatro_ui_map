@@ -25,11 +25,30 @@ macro GENERATE_BLIND = (blind_name) -> "
 }
 "
 
+export card_areas = {
+    get_hand:        -> G.hand
+    get_jokers:      -> G.jokers
+    get_consumables: -> G.consumeables
+    get_inventory:   -> G.consumeables
+}
+
+macro SCREEN_CARD_AREAS = (...) -> 
+    output = {}
+    output[] = "{"
+
+    always_present = {"jokers", "consumables", "inventory"}
+    for area_name in *{...{...}, ...always_present}
+        output[] = "get_#{area_name}: card_areas.get_#{area_name}"
+
+    output[] = "}"
+    return output |> table.concat("\n")
+
 export screens = {
     select_blind: {
         $GENERATE_BLIND small
         $GENERATE_BLIND big
         $GENERATE_BLIND boss
+        card_areas: $SCREEN_CARD_AREAS()
     }
     blind: {
         buttons: {
@@ -38,5 +57,6 @@ export screens = {
             get_suit:      -> G.buttons |> get_UIE_by_attribute("button", "sort_hand_suit")
             get_discard:   -> G.buttons |> get_UIE_by_attribute("button", "discard_cards_from_highlighted")
         }
+        card_areas: $SCREEN_CARD_AREAS(hand)
     }
 }
