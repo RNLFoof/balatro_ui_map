@@ -43,6 +43,7 @@ macro SCREEN_CARD_AREAS = (...) ->
     output[] = "}"
     return output |> table.concat("\n")
 
+local screens
 export screens = {
     select_blind: {
         small: $GENERATE_BLIND small

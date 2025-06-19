@@ -50,7 +50,8 @@ local card_areas = {
 	end
 }
 _module_0["card_areas"] = card_areas
-local screens = {
+local screens
+screens = {
 	select_blind = {
 		small = {
 			get_ui_box = function()
