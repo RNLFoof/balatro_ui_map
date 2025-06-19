@@ -52,49 +52,43 @@ local card_areas = {
 _module_0["card_areas"] = card_areas
 local screens = {
 	select_blind = {
-		{
-			small = {
-				get_ui_box = function()
-					return G.blind_select_opts.small
+		small = {
+			get_ui_box = function()
+				return G.blind_select_opts.small
+			end,
+			buttons = {
+				get_select = function()
+					return screens.select_blind.small.get_ui_box():get_UIE_by_ID('select_blind_button')
 				end,
-				buttons = {
-					get_select = function()
-						return screens.select_blind.small.get_ui_box():get_UIE_by_ID('select_blind_button')
-					end,
-					get_skip = function()
-						return get_UIE_by_attribute(screens.select_blind.small.get_ui_box(), 'button', 'skip_blind')
-					end
-				}
+				get_skip = function()
+					return get_UIE_by_attribute(screens.select_blind.small.get_ui_box(), 'button', 'skip_blind')
+				end
 			}
 		},
-		{
-			big = {
-				get_ui_box = function()
-					return G.blind_select_opts.big
+		big = {
+			get_ui_box = function()
+				return G.blind_select_opts.big
+			end,
+			buttons = {
+				get_select = function()
+					return screens.select_blind.big.get_ui_box():get_UIE_by_ID('select_blind_button')
 				end,
-				buttons = {
-					get_select = function()
-						return screens.select_blind.big.get_ui_box():get_UIE_by_ID('select_blind_button')
-					end,
-					get_skip = function()
-						return get_UIE_by_attribute(screens.select_blind.big.get_ui_box(), 'button', 'skip_blind')
-					end
-				}
+				get_skip = function()
+					return get_UIE_by_attribute(screens.select_blind.big.get_ui_box(), 'button', 'skip_blind')
+				end
 			}
 		},
-		{
-			boss = {
-				get_ui_box = function()
-					return G.blind_select_opts.boss
+		boss = {
+			get_ui_box = function()
+				return G.blind_select_opts.boss
+			end,
+			buttons = {
+				get_select = function()
+					return screens.select_blind.boss.get_ui_box():get_UIE_by_ID('select_blind_button')
 				end,
-				buttons = {
-					get_select = function()
-						return screens.select_blind.boss.get_ui_box():get_UIE_by_ID('select_blind_button')
-					end,
-					get_skip = function()
-						return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
-					end
-				}
+				get_skip = function()
+					return get_UIE_by_attribute(screens.select_blind.boss.get_ui_box(), 'button', 'skip_blind')
+				end
 			}
 		},
 		card_areas = {

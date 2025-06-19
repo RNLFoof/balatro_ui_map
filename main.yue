@@ -16,7 +16,7 @@ export get_UIE_by_attribute = (ui_box, attribute_key, attribute_value, node) ->
 
 -- Done by macros instead of a for loop for intelisense
 macro GENERATE_BLIND = (blind_name) -> "
-#{blind_name}: {
+{
     get_ui_box: -> G.blind_select_opts.#{blind_name}
     buttons: {
         get_select: -> screens.select_blind.#{blind_name}.get_ui_box()::get_UIE_by_ID('select_blind_button')
@@ -45,9 +45,9 @@ macro SCREEN_CARD_AREAS = (...) ->
 
 export screens = {
     select_blind: {
-        $GENERATE_BLIND small
-        $GENERATE_BLIND big
-        $GENERATE_BLIND boss
+        small: $GENERATE_BLIND small
+        big: $GENERATE_BLIND big
+        boss: $GENERATE_BLIND boss
         card_areas: $SCREEN_CARD_AREAS()
     }
     blind: {
