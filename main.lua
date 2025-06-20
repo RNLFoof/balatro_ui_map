@@ -1,4 +1,15 @@
 local _module_0 = { }
+local _deeper_type
+_deeper_type = function(object)
+	local type_name = type(output)
+	if type_name == "table" then
+		local metatable = getmetatable(self)
+		if metatable then
+			return metatable
+		end
+	end
+	return type_name
+end
 local _anon_func_0 = function(attribute_key, node)
 	local _obj_0 = node.config
 	if _obj_0 ~= nil then
@@ -15,6 +26,20 @@ local _anon_func_1 = function(child_value)
 end
 local get_UIE_by_attribute
 get_UIE_by_attribute = function(ui_box, attribute_key, attribute_value, node)
+	if ui_box == "any" then
+		return get_UIE_by_attribute(G.I.UIBOX, attribute_key, attribute_value, node)
+	end
+	if _deeper_type(ui_box) == "table" then
+		local ui_boxes = ui_box
+		for _index_0 = 1, #ui_boxes do
+			local ui_box = ui_boxes[_index_0]
+			local output = get_UIE_by_attribute(ui_box, attribute_key, attribute_value, node)
+			if output then
+				return output
+			end
+		end
+		return nil
+	end
 	if node == nil then
 		node = ui_box.UIRoot
 	end
@@ -28,13 +53,67 @@ get_UIE_by_attribute = function(ui_box, attribute_key, attribute_value, node)
 		elseif _anon_func_1(child_value) then
 			result = get_UIE_by_attribute(v.config.object, attribute_key, attribute_value, nil)
 			if result then
-				return res
+				return result
 			end
 		end
 	end
 	return nil
 end
 _module_0["get_UIE_by_attribute"] = get_UIE_by_attribute
+local get_button
+get_button = function(ui_box, button_function_name)
+	return get_UIE_by_attribute(ui_box, "button", button_function_name)
+end
+_module_0["get_button"] = get_button
+local get_UIBoxes_by_check
+get_UIBoxes_by_check = function(check, kwargs)
+	if kwargs == nil then
+		kwargs = { }
+	end
+	if kwargs.instance_type == nil then
+		kwargs.instance_type = nil
+	end
+	local target_table
+	if kwargs.instance_type then
+		target_table = G.I[kwargs.instance_type]
+	else
+		target_table = G.I.UIBOX
+	end
+	local output = { }
+	for _index_0 = 1, #target_table do
+		local ui_box = target_table[_index_0]
+		if check(ui_box) then
+			output[#output + 1] = ui_box
+		end
+	end
+	return output
+end
+_module_0["get_UIBoxes_by_check"] = get_UIBoxes_by_check
+local get_UIBox_by_check
+get_UIBox_by_check = function(check, kwargs)
+	if kwargs == nil then
+		kwargs = { }
+	end
+	return get_UIBoxes_by_check(check, kwargs)[1]
+end
+_module_0["get_UIBox_by_check"] = get_UIBox_by_check
+local _anon_func_2 = function(ui_box)
+	local _obj_0 = ui_box.config
+	if _obj_0 ~= nil then
+		return _obj_0.id
+	end
+	return nil
+end
+local get_UIBox_by_id
+get_UIBox_by_id = function(id, kwargs)
+	if kwargs == nil then
+		kwargs = { }
+	end
+	return get_UIBox_by_check((function(ui_box)
+		return _anon_func_2(ui_box) == id
+	end), kwargs)
+end
+_module_0["get_UIBox_by_id"] = get_UIBox_by_id
 local card_areas = {
 	get_hand = function()
 		return G.hand
@@ -119,6 +198,28 @@ screens = {
 			get_consumables = card_areas.get_consumables,
 			get_inventory = card_areas.get_inventory
 		}
+	},
+	win_blind = {
+		buttons = {
+			get_cash_out = function()
+				return get_button(screens.win_blind.get_ui_box(), "cash_out")
+			end
+		},
+		card_areas = {
+			get_jokers = card_areas.get_jokers,
+			get_consumables = card_areas.get_consumables,
+			get_inventory = card_areas.get_inventory
+		},
+		get_uibox = get_UIBox_by_check((function(uibox)
+			do
+				local _cond_0 = G.round_eval
+				if not (uibox.config.major == _cond_0) then
+					return false
+				else
+					return _cond_0 ~= nil
+				end
+			end
+		end))
 	}
 }
 _module_0["screens"] = screens

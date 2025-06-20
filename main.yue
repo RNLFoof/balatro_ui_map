@@ -1,6 +1,25 @@
 
+_deeper_type = (object) ->
+    type_name = type(output)
+    if type_name == "table"
+        metatable = getmetatable(self)
+        if metatable
+            return metatable
+    return type_name
+
 -- THIS HASN'T ACTUALLY BEEN TESTED!!!!
 export get_UIE_by_attribute = (ui_box, attribute_key, attribute_value, node) ->
+    if ui_box == "any"
+        return get_UIE_by_attribute(G.I.UIBOX, attribute_key, attribute_value, node)
+    
+    if _deeper_type(ui_box) == "table"
+        ui_boxes = ui_box
+        for ui_box in *ui_boxes
+            output = get_UIE_by_attribute(ui_box, attribute_key, attribute_value, node)
+            if output
+                return output
+        return nil
+
     node ??= ui_box.UIRoot
     if node.config?[attribute_key] == attribute_value
         return node
@@ -11,8 +30,28 @@ export get_UIE_by_attribute = (ui_box, attribute_key, attribute_value, node) ->
         elseif child_value.config.object?.get_UIE_by_ID  -- a bit jank to check for this, like in the original code, but I figure it being present at least guarentees that it *is* a UIBox
             result = get_UIE_by_attribute(v.config.object, attribute_key, attribute_value, nil)
             if result
-                return res
+                return result
     return nil
+
+export get_button = (ui_box, button_function_name) -> get_UIE_by_attribute(ui_box, "button", button_function_name)
+
+export get_UIBoxes_by_check = (check, kwargs={}) ->
+    kwargs.instance_type ??= nil  -- Uhhhhhh I guess that's redundant but whatever. lets you know it exists
+    
+    target_table = if kwargs.instance_type 
+        G.I[kwargs.instance_type]
+    else
+        G.I.UIBOX
+    
+    output = {}
+    for ui_box in *target_table
+        if check(ui_box)
+            output[] = ui_box
+    return output
+
+export get_UIBox_by_check = (check, kwargs={}) -> get_UIBoxes_by_check(check, kwargs)[1] 
+
+export get_UIBox_by_id = (id, kwargs={}) -> get_UIBox_by_check(((ui_box) -> ui_box.config?.id == id), kwargs)
 
 -- Done by macros instead of a for loop for intelisense
 macro GENERATE_BLIND = (blind_name) -> "
@@ -59,5 +98,12 @@ export screens = {
             get_discard:   -> G.buttons |> get_UIE_by_attribute("button", "discard_cards_from_highlighted")
         }
         card_areas: $SCREEN_CARD_AREAS(hand)
+    }
+    win_blind: {
+        buttons: {
+            get_cash_out: -> screens.win_blind.get_ui_box() |> get_button("cash_out")
+        }
+        card_areas: $SCREEN_CARD_AREAS()
+        get_uibox: ((uibox) -> uibox.config.major == G.round_eval != nil) |> get_UIBox_by_check
     }
 }
